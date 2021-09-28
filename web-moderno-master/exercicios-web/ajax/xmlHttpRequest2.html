@@ -23,9 +23,11 @@
 
     <script>
         function ajaxUpload(config) {
+            // Instancia objteto
             const xhr = new XMLHttpRequest()
-
+            // Verifica se a upload
             if (xhr.upload) {
+                // A função onprogress verifica o progresso do upload
                 xhr.upload.onprogress = e => {
                     const atual = e.loaded
                     const total = e.total
@@ -33,16 +35,19 @@
                     config.progresso({ atual, total, percentual })
                 }
             }
-
+            // Open recebe os parâmetros
             xhr.open("post", config.url, true)
+            // send recebe o formulário e envia para o servidor
             xhr.send(config.formData)
         }
-
+        
+        // O evento onchange capta o momento em que o arquivo foi enviado
         document.querySelector('input[type=file]').onchange = e => {
             const formData = new FormData()
             const inputFile = e.target
             formData.append(inputFile.name, inputFile.files[0])
-
+            
+            // Chama a função ajaxUpload
             ajaxUpload({
                 url: "upload",
                 formData: formData,
