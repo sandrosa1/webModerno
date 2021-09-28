@@ -12,12 +12,16 @@
 
     <script>
         function ajax(config) {
+            //Instância obj
             const xhr = new XMLHttpRequest()
+            //Olhem recebe os parâmetros
             xhr.open(config.metodo, config.url, true)
-
+      
+           //E uma espécie de progresso que vai do 1 ao 4
             xhr.onreadystatechange = e => {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
+                        // A função sucesso recebe um xml
                         config.sucesso(xhr.responseXML)
                     } else if (xhr.status >= 400) {
                         config.erro({
@@ -28,18 +32,23 @@
                 }
             }
 
+           //Lê o arquivo
             xhr.send()
         }
-
+   
+       
         ajax({
             url: "dados/estados.xml",
             metodo: "get",
             sucesso(resposta) {
                 console.log(resposta)
+                 // Pega todos elementos com a TAG e estados e seus atributos
                 const estados = resposta.getElementsByTagName('estado')
+                //reduce cria um string com li + estado e armazena no html, inicia a função com uma string vazia
                 const itens = Array.from(estados).reduce(
                     (html, estado) => html + `<li>${estado.attributes.nome.value}</li>`, ''
                 )
+                //inseri o item no body da página
                 document.body.insertAdjacentHTML('beforeend', `<ul>${itens}</ul>`)
             },
             erro(e) {
