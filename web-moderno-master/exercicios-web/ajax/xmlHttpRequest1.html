@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>XMLHttpRequest #01</title>
+    <link rel='stylesheet' href='css/estilo.css'>
+</head>
+
+<body class="conteudo exercicio">
+    <h1>Estados</h1>
+
+    <script>
+        //1 passo
+        //A função recebe um objeto como parametro
+        function ajax(config) {
+            //Instacia um objeto xmlHttpRequest
+            const xhr = new XMLHttpRequest()
+            //Abri um requisiçao do tipo (1 metodo GET|POST... , 2 parametro e a url /3 informa que a requisiçao e asincrona)
+            xhr.open(config.metodo, config.url, true)
+
+            xhr.onload = e => {
+                if (xhr.status === 200) {
+                    config.sucesso(xhr.response)
+                } else if (xhr.status >= 400) {
+                    //Objeto erro com codigo e status do erro
+                    config.erro({
+                        codigo: xhr.status,
+                        texto: xhr.statusText
+                    })
+                }
+            }
+
+            //Esta e a função que vai enviar a requisição
+            xhr.send()
+        }
+
+        //Constroi um tabela usando a DOM
+        function criarTabela(estados) {
+            //Cria um novo array de estados com a tags tr/td
+            const linhas = estados.map(estado => {
+
+                //Cria o elemento td e aramazena na variavel
+                const tdId = document.createElement('td')
+                //recebe o id do estado
+                tdId.innerHTML = estado.id
+
+                //Cria o elemento td e aramazena na variavel
+                const tdNome = document.createElement('td')
+                 //recebe o nome do estado
+                tdNome.innerHTML = estado.nome
+
+                //Cria o elemento td e aramazena na variavel
+                const tdSigla = document.createElement('td')
+                 //recebe o sigla do estado
+                tdSigla.innerHTML = estado.sigla
+
+                //Cria o elemento tr e aramazena na variavel
+                const tr = document.createElement('tr')
+
+                //Inseri os elementos filho dentro do pai
+                tr.appendChild(tdId)
+                tr.appendChild(tdNome)
+                tr.appendChild(tdSigla)
+
+                //retorna o pai 
+                return tr
+            })
+
+            //Cria o elemento table e armazena na variavel
+            const tabela = document.createElement('table')
+
+            //inseri elemntos trs dentro da table
+            linhas.forEach(linha => tabela.appendChild(linha))
+            //insery o elemento tabela no body da pagina
+            document.body.appendChild(tabela)
+        }
+
+        //2 passo chama a função ajax pasando objeto configura
+        ajax({
+            url: "dados/estados.json",
+            //Simulando o erro
+            //url: "dados/estados2.json",
+            metodo: "get",
+            sucesso(resposta) {
+                //Converte o arquivo json de estado em um array de estados
+                const estados = JSON.parse(resposta)
+                console.log(estados)
+                //Envia o array de estados
+                criarTabela(estados)
+            },
+            erro(e) {
+                //msg recebe os erro
+                const msg = document.createTextNode(`${e.codigo}: ${e.texto}`)
+                document.body.appendChild(msg)
+            }
+        })
+    </script>
+</body>
