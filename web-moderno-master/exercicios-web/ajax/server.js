@@ -19,9 +19,11 @@ app.use(bodyParser.json())
 //app.get('/teste',(req, res) => res.send('ok'))
 //app.get('/teste',(req, res) => res.send(new Date))
 
-
+//Importa o multer para interpretar o formulário que veio do upload
 // const multer = require('multer')
 
+// A função diskStorage recebe um objeto onde e configurada a pasta de destino do upload e o nome do arquivo
+// A pasta de destino deve ser criada manualmente.
 // const storage = multer.diskStorage({
 //     destination: function (req, file, callback) {
 //         callback(null, './upload')
@@ -31,8 +33,10 @@ app.use(bodyParser.json())
 //     }
 // })
 
+// Aqui passamos para o construtor do mulher o objeto storage e a função singles com o nome do arquivo que vem na requisição.
 // const upload = multer({ storage }).single('arquivo')
 
+// Cria um rota POST e chama a função middleware 
 // app.post('/upload', (req, res) => {
 //     upload(req, res, err => {
 //         if (err) {
