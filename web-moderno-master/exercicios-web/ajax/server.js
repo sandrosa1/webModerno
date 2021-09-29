@@ -20,7 +20,7 @@ app.use(bodyParser.json())
 //app.get('/teste',(req, res) => res.send(new Date))
 
 //Importa o multer para interpretar o formulário que veio do upload
-// const multer = require('multer')
+ const multer = require('multer')
 
 // A função diskStorage recebe um objeto onde e configurada a pasta de destino do upload e o nome do arquivo
 // A pasta de destino deve ser criada manualmente.
@@ -47,7 +47,7 @@ app.use(bodyParser.json())
      })
  })
 
-// Para utilizar o fecth POST o bdy-parse precisa estar configurado
+// Para utilizar o fecth POST o body-parse precisa estar configurado
  app.post('/formulario', (req, res) => {
      // Cria um objeto com operador spreed de dados que vieram da requisição e retorna para o front
      // Aqui não está enviando para nem banco de dados
