@@ -13,11 +13,14 @@
     <script>
         const url = 'dados/estados.json'
         fetch(url)
+             // Função .json retorna um promise
             .then(resp => resp.json())
+            //Cria uma string concatenado o nome do estado com li, guarda na variável html cada iteração
             .then(estados => {
                 const itens = estados.reduce(
                     (html, estado) => html + `<li>${estado.nome}</li>`, ''
                 )
+                // Inseri no body da pagina
                 document.body.insertAdjacentHTML('beforeend', `<ul>${itens}</ul>`)
             })
     </script>
