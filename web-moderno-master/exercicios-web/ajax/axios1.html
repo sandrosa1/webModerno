@@ -13,6 +13,8 @@
 
     <script>
         const url = 'dados/estados.json'
+        // Biblioteca do axios foi importada no Head da página
+        // Diferente do fetch o axios tem um atributo .data que dá trás o objeto resolvido(já está em JavaScript)
         axios(url).then(resp => {
             const itens = resp.data.reduce(
                 (html, estado) => html + `<li>${estado.nome}</li>`, ''
