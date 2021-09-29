@@ -29,19 +29,29 @@
     </form>
     <div id="resultado"></div>
     <script>
+        // Quando o formulário com a name.usuarioForm for submetida
         document.usuarioForm.onsubmit = async e => {
+            //Para o evento de submissão
             e.preventDefault()
-
+           
+            // Recebe os dados da do formulário
             const form = e.target
+            // Cria um objeto com os dados/ aqui podemos manipular esse dados acrescentando ou editando dados
             const data = new FormData(form)
+            // Exemplo de adiçat de dados
             data.append('ajax', true)
 
+            // Criando o objeto que será enviado 
             const options = {
+                // A URL de destino, que está no action
                 method: form.method,
+                // Cria uma estrutura (objeto) que vai no body da requisiçao
                 body: new URLSearchParams(data)
             }
-
+            
+            // Pega o elemento ID e guarda na variavel
             const resultado = document.getElementById('resultado')
+            // POST
             // fetch(form.action, options)
             //     .then(resp => resp.json())
             //     .then(json => {
@@ -51,6 +61,8 @@
             //         resultado.innerHTML = e
             //     })
             
+
+            // POST UTILIZANDO ASYNC AWAIT
             try {
                 const resp = await fetch(form.action, options)
                 const json = await resp.json()
