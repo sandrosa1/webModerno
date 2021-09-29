@@ -24,35 +24,38 @@ app.use(bodyParser.json())
 
 // A função diskStorage recebe um objeto onde e configurada a pasta de destino do upload e o nome do arquivo
 // A pasta de destino deve ser criada manualmente.
-// const storage = multer.diskStorage({
-//     destination: function (req, file, callback) {
-//         callback(null, './upload')
-//     },
-//     filename: function (req, file, callback) {
-//         callback(null, `${Date.now()}_${file.originalname}`)
-//     }
-// })
+    const storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+         callback(null, './upload')
+     },
+     filename: function (req, file, callback) {
+         callback(null, `${Date.now()}_${file.originalname}`)
+     }
+ })
 
 // Aqui passamos para o construtor do mulher o objeto storage e a função singles com o nome do arquivo que vem na requisição.
-// const upload = multer({ storage }).single('arquivo')
+ const upload = multer({ storage }).single('arquivo')
 
 // Cria um rota POST e chama a função middleware 
-// app.post('/upload', (req, res) => {
-//     upload(req, res, err => {
-//         if (err) {
-//             return res.end('Ocorreu um erro.')
-//         }
+ app.post('/upload', (req, res) => {
+     upload(req, res, err => {
+         if (err) {
+             return res.end('Ocorreu um erro.')
+         }
 
-//         res.end('Concluído com sucesso.')
-//     })
-// })
+         res.end('Concluído com sucesso.')
+     })
+ })
 
-// app.post('/formulario', (req, res) => {
-//     res.send({
-//         ...req.body,
-//         id: 7
-//     })
-// })
+// Para utilizar o fecth POST o bdy-parse precisa estar configurado
+ app.post('/formulario', (req, res) => {
+     // Cria um objeto com operador spreed de dados que vieram da requisição e retorna para o front
+     // Aqui não está enviando para nem banco de dados
+     res.send({
+         ...req.body,
+         id: 7
+     })
+ })
 
 // app.get('/parOuImpar', (req, res) => {
 //     // req.body
