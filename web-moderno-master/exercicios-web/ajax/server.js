@@ -57,15 +57,15 @@ app.use(bodyParser.json())
      })
  })
 
-// app.get('/parOuImpar', (req, res) => {
-//     // req.body
-//     // req.query
-//     // req.params
-//     const par = parseInt(req.query.numero) % 2 === 0
-//     res.send({
-//         resultado: par ? 'par' : 'impar'
-//     })
-// })
+ app.get('/parOuImpar', (req, res) => {
+     // req.body
+     // req.query
+     // req.params
+     const par = parseInt(req.query.numero) % 2 === 0
+     res.send({
+         resultado: par ? 'par' : 'impar'
+     })
+ })
 
 //Start o servidor DEIXAR SEMPRE DESCOMENTADO
  app.listen(8080, () => console.log('Executando...'))
