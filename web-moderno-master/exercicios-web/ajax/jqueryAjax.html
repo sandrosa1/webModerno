@@ -14,11 +14,13 @@
     <div id="post"></div>
 
     <script>
+        // Exibe o resultado dentro do elemento com o ID passado como params
         function exibirResultado(id, dados) {
             const texto = JSON.stringify(dados)
             document.getElementById(id).innerHTML = texto
         }
-
+        // Essa função precisa ter no segundo params uma callback ( O nome precisa se success)
+        // O Terceiro pode ser passado a callback(error) para um tratamento do erro
         $.ajax({
             url: 'parOuImpar',
             data: {
