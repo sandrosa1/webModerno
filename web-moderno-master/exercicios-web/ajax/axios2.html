@@ -14,19 +14,23 @@
     <div id="post"></div>
 
     <script>
+        //A funções de recebe. O ID e a string que será renderizada
         function exibirResultado(id, dados) {
+            // Converte o JSON em string
             const texto = JSON.stringify(dados)
             document.getElementById(id).innerHTML = texto
         }
-
+        // EX 1: Enviando os parâmetros na URL
         // axios('parOuImpar?numero=10').then(resp => exibirResultado('get', resp.data))
         
+        //Ex 2: Enviando a URL e o obj params
         axios.get('parOuImpar', {
             params: {
                 numero: 6
             }
         }).then(resp => exibirResultado('get', resp.data))
 
+        // Ex 3: Simulando um envio de formulário
         axios.post('formulario', {
             nome: 'João',
             sobrenome: 'Silva'
