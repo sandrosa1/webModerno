@@ -25,31 +25,50 @@
     </nav>
     <div class="pagina"></div>
     <script>
+        //Navega pela URL e inseri o HTML no seletor indicado 
+        // Push determina que está navegando.
+        // No serviço para funcionar com perfeição precisa de um redirecionamento para o Index
+        // Para tudo funcionar deve iniciar no index
         function navegarViaAjax(url, seletor, push = true) {
+            // Valida se não a um dos params
             if(!url || !seletor) return
+             // Guardo o elemento
             const elemento = document.querySelector(seletor)
+            // URL onde está a pagina
             fetch(url)
+                 // Recebe o texto do html
                 .then(resp => resp.text())
+                 // Inseri o texto HTML dentro do elemento
                 .then(html => {
                     elemento.innerHTML = html
+                    // 
                     if(push) {
+                        // Salva as informações do seletor, um título qualquer e a URL no histórico da pagina
                         history.pushState({ seletor }, "Página Ajax", url)
                     }
                 })
         }
-
-        document.querySelectorAll('[wm-link]').forEach(link => {
+        // Pega todos elementos com o atributo wm-link e executa o foreach
+        document.querySelectorAll('wm-link').forEach(link => {
+             // Salva o valor do link
             const url = link.attributes['wm-link'].value
+            //salva o destino de onde será inserido o HTML
             const seletorDestino = link.attributes['wm-destino'].value
-
+           
+             // Quando click no link
             link.onclick = e => {
+                // Para o evento padrão
                 e.preventDefault()
+                // Chama a função que vai navegar para a pagina
                 navegarViaAjax(url, seletorDestino)
             }
         })
 
+       // Retira o primeiro elemento do stado
         window.onpopstate = e => {
+            // Se existe
             if(e.state) {
+                // Volte para URL retirada da fila, insira no seletor indicado, e não armazene no historico
                 navegarViaAjax(window.location.href, e.state.seletor, false)
             }
         }
