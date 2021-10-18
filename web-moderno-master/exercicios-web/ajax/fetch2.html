@@ -21,8 +21,14 @@
 </head>
 
 <body class="conteudo exercicio">
-    <h1>Formulário Via Fetch</h1>
-    <form name="usuarioForm" action="formulario" method="post">
+    <h1>Formulário Via Fetch 2</h1>
+    <form name="usuarioForm1" action="formulario" method="post">
+        <input type="text" name="nome" placeholder="Nome..." />
+        <input type="text" name="sobrenome" placeholder="Sobrenome..." />
+        <button>Salvar</button>
+    </form>
+    <h1>Formulário Via Fetch 2</h1>
+    <form name="usuarioForm2" action="formulario" method="post">
         <input type="text" name="nome" placeholder="Nome..." />
         <input type="text" name="sobrenome" placeholder="Sobrenome..." />
         <button>Salvar</button>
@@ -30,7 +36,36 @@
     <div id="resultado"></div>
     <script>
         // Quando o formulário com a name.usuarioForm for submetida
-        document.usuarioForm.onsubmit = async e => {
+        document.usuarioForm1.onsubmit = async e => {
+            //Para o evento de submissão
+            e.preventDefault()
+            // Recebe os dados da do formulário
+            const form = e.target
+            // Cria um objeto com os dados do formulario1/ aqui podemos manipular esse dados acrescentando ou editando dados
+            const data = new FormData(form)
+            // Exemplo de adiçat de dados
+            data.append('ajax', true)
+            // Criando o objeto que será enviado 
+            const options = {
+                // A URL de destino, que está no action
+                method: form.method,
+                // Cria uma estrutura com o objeto data que vai no body da requisiçao
+                body: new URLSearchParams(data)
+            } 
+            //Pega o elemento ID e guarda na variavel
+            const resultado = document.getElementById('resultado')
+            //POST
+            fetch(form.action, options)
+                .then(resp => resp.json())
+                .then(json => {
+                    resultado.innerHTML = JSON.stringify(json)
+                })
+                .catch(e => {
+                    resultado.innerHTML = e
+                })
+        }
+        // Quando o formulário com a name.usuarioForm for submetida
+        document.usuarioForm2.onsubmit = async e => {
             //Para o evento de submissão
             e.preventDefault()
            
@@ -48,25 +83,13 @@
                 // Cria uma estrutura (objeto) que vai no body da requisiçao
                 body: new URLSearchParams(data)
             }
-            
-            // Pega o elemento ID e guarda na variavel
-            const resultado = document.getElementById('resultado')
-            // POST
-            // fetch(form.action, options)
-            //     .then(resp => resp.json())
-            //     .then(json => {
-            //         resultado.innerHTML = JSON.stringify(json)
-            //     })
-            //     .catch(e => {
-            //         resultado.innerHTML = e
-            //     })
-            
 
             // POST UTILIZANDO ASYNC AWAIT
             try {
                 const resp = await fetch(form.action, options)
                 const json = await resp.json()
-                resultado.innerHTML = JSON.stringify(json)
+                const li = Object.values(json).reduce((html , value) => html + `<li>${value}</li>`, '')
+                resultado.innerHTML = `<ol>${li}</ol>`
             } catch (e) {
                 resultado.innerHTML = e
             }
